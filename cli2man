@@ -1232,6 +1232,7 @@ Options:
   --see-also PAGES             comma separated list of manpages
                                i.e. --see-also mandoc,mdoc7
                                without number at the end, section 1 is assumed
+  --date DATE                  date in ISO 8601 format (current date by default)
   -T FORMAT                    set output format (default: mdoc)
                                -Tmarkdown EXPERIMENTAL
                                -Tmdoc
@@ -1284,6 +1285,9 @@ out = out.replace('optional arguments:','Options:')
 empty_argv = []
 
 manual = Manual(opt['-T'])
+
+if opt['--date']:
+    manual.now = datetime.datetime.strptime(opt['--date'], "%Y-%m-%d")
 
 if opt['--set-order']:
     manual.section_order = ["MDOC INIT"]
@@ -1394,4 +1398,3 @@ if opt['--open-in-man']:
         os.unlink(f.name)
     else:
         subprocess.call('man ./'+opt['--output'],shell=True)
-
